@@ -1,39 +1,38 @@
 #include <iostream>
 #include <map>
+#include <string>
 
 int main() {
-    std::string word_one, word_two;
-    std::map<int, char>word_first;
-    std::map<int, char>word_second;
+    int k;
+    bool check=false;
+    std::string word_one, word_two, words;
+    std::map<char,int>word_s;
     std::cout<<"Input words"<<std::endl;
     std::cin>>word_one>>word_two;
-    for (int i=0; i < word_one.length(); i++){
-        word_first.insert(std::pair<int,char>(i, word_one[i]));
-    }
-    for (int i=0; i < word_two.length(); i++){
-        word_second.insert(std::pair<int,char>(i, word_two[i]));
-    }
-    std::map<int, char>:: iterator one = word_first.end();
-    std::map<int, char>:: iterator two = word_second.end();
-    bool check=false;
-        for (int i=0; i < one->first; i++){
-            check = false;
-            for (int j=0; j < two->first; j++){
-                if (word_first[i] == word_second[j]){
-                    check = true;
-                    word_second.erase(j);
-                    std::map<int, char>:: iterator two = word_second.end();
-                    continue;
+    words=word_one+word_two;
+    if (word_one.length()==word_two.length()){
+        for (int i=0; i < words.length(); i++){
+            k=1;
+            for (std::map<char, int>:: iterator word = word_s.begin(); word != word_s.end(); word++){
+                if (word->first==words[i]){
+                    k++;
+                    word_s[words[i]]=k;
+                    break;
                 }
             }
+            if (k==1) word_s.insert(std::pair<char, int>(words[i],k));
         }
-        for (std::map<int, char>:: iterator two = word_second.begin(); two != word_second.end(); two++){
-            if (two->second !='\000'){
-                check=false;
+
+
+        for (std::map<char, int>:: iterator word = word_s.begin(); word != word_s.end(); word++){
+            check=true;
+            if (word->second%2!=0){
+                check= false;
                 break;
             }
         }
-        std::cout<<std::boolalpha<<check;
+    }
+    std::cout<<std::boolalpha<<check;
 
     return 0;
 }

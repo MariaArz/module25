@@ -3,36 +3,30 @@
 #include <string>
 
 int main() {
-    int k;
-    bool check=false;
-    std::string word_one, word_two, words;
+    std::string word_one, word_two;
     std::map<char,int>word_s;
     std::cout<<"Input words"<<std::endl;
     std::cin>>word_one>>word_two;
-    words=word_one+word_two;
-    if (word_one.length()==word_two.length()){
-        for (int i=0; i < words.length(); i++){
-            k=1;
-            for (std::map<char, int>:: iterator word = word_s.begin(); word != word_s.end(); word++){
-                if (word->first==words[i]){
-                    k++;
-                    word_s[words[i]]=k;
-                    break;
+    for (int i = 0; i < word_one.length(); i++) {
+
+        if (word_s.find(word_one[i]) == word_s.end()) {
+            word_s.insert(std::pair<char, int>(word_one[i], 1));
+
+        } else word_s[word_one[i]]++;
+    }
+    if (word_one.length()==word_two.length()) {
+
+
+        for (int i = 0; i < word_two.length(); i++) {
+            if (word_s.find(word_two[i]) != word_s.end()) {
+                word_s[word_two[i]]--;
+                if (word_s[word_two[i]]==0){
+                    word_s.erase(word_two[i]);
                 }
-            }
-            if (k==1) word_s.insert(std::pair<char, int>(words[i],k));
-        }
-
-
-        for (std::map<char, int>:: iterator word = word_s.begin(); word != word_s.end(); word++){
-            check=true;
-            if (word->second%2!=0){
-                check= false;
-                break;
             }
         }
     }
-    std::cout<<std::boolalpha<<check;
+    std::cout<<std::boolalpha<<word_s.empty() ;
 
     return 0;
 }
